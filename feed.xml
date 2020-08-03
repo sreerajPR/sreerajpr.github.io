@@ -5,36 +5,230 @@
     <description>Blogs on C#, .Net, Xamarin, Xamarin.Forms, Xamarin.Android, Xamarin.iOS, Mobile, ASP.Net, Javascript, Web</description>
     <link>http://sreerajpr.com/</link>
     <atom:link href="http://sreerajpr.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 20 Jul 2020 00:52:20 +0530</pubDate>
-    <lastBuildDate>Mon, 20 Jul 2020 00:52:20 +0530</lastBuildDate>
+    <pubDate>Tue, 04 Aug 2020 01:07:25 +0530</pubDate>
+    <lastBuildDate>Tue, 04 Aug 2020 01:07:25 +0530</lastBuildDate>
     <generator>Jekyll v3.6.3</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>Xamarin.Forms Video Trimmer</title>
+        <description>&lt;p&gt;I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is published as a Nuget Package : &lt;a href=&quot;https://www.nuget.org/packages/Xamarin.Forms.VideoTrimmer/&quot;&gt;Xamarin.Forms.VideoTrimmer&lt;/a&gt;. It’s souce code and a demo lives inside a &lt;a href=&quot;https://github.com/sreerajPR/Xamarin.Forms.VideoTrimmer&quot;&gt;repository in my Github account&lt;/a&gt;. At the moment this package targets Android and iOS only.&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;API Usage&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Task&amp;lt;bool&amp;gt; VideoTrimmerService.Instance.TrimAsync(int startMS, int lengthMS,
+ string inputPath, string outputPath)&lt;/code&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def print_hi(name)
-  puts &quot;Hi, #{name}&quot;
-end
-print_hi('Tom')
-#=&amp;gt; prints 'Hi, Tom' to STDOUT.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+  &lt;li&gt;startMS : starting point of the Trimmed video in milliseconds.&lt;/li&gt;
+  &lt;li&gt;lengthMS : length of the Trimmed video in milliseconds.&lt;/li&gt;
+  &lt;li&gt;inputPath : path of the video to be trimmed.&lt;/li&gt;
+  &lt;li&gt;outputPath : destination path of the trimmed video.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Note: Trimmed video will be in &lt;code&gt;mp4&lt;/code&gt; and &lt;code&gt;mov&lt;/code&gt; formats in Android and iOS respectively. &lt;code&gt;outputPath&lt;/code&gt; should take care of this.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;sample-xamarinforms-app-to-trim-video&quot;&gt;Sample Xamarin.Forms app to Trim Video&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/VideoTrimmerDemo.gif&quot; alt=&quot;Video Trimmer Xamarin.Forms App Android &amp;amp; iOS&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Let’s get our hands dirty.&lt;/em&gt; Let’s develop a small application in which we choose a video from the device, trims it and shares the trimmed version to other apps. To start with, create a blank Xamarin.Forms app targeting Android and iOS.&lt;/p&gt;
+
+&lt;h4 id=&quot;adding-necessary-nuget-packages&quot;&gt;Adding Necessary Nuget packages&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Ensure that &lt;a href=&quot;https://www.nuget.org/packages/Xamarin.Essentials/&quot;&gt;Xamarin.Essentials&lt;/a&gt; is installed. We will be using Permissions API from Xamarin.Essentials. So please ensure &lt;a href=&quot;https://docs.microsoft.com/en-us/xamarin/essentials/permissions&quot;&gt;Xamarin.Essentials is configured correctly&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Add &lt;a href=&quot;https://www.nuget.org/packages/Xam.Plugin.Media/&quot;&gt;Xam.Plugin.Media&lt;/a&gt; to the shared project.&lt;/li&gt;
+  &lt;li&gt;Add &lt;a href=&quot;https://www.nuget.org/packages/Xamarin.Forms.VideoTrimmer/&quot;&gt;Xamarin.Forms.VideoTrimmer Nuget package&lt;/a&gt; to all three projects.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;video-trimming-page&quot;&gt;Video Trimming Page&lt;/h4&gt;
+
+&lt;p&gt;In the Video Trimming page, we will have:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;“&lt;em&gt;Pick Video&lt;/em&gt;” &lt;code&gt;Button&lt;/code&gt; tapping which we will select the video to be trimmed.&lt;/li&gt;
+  &lt;li&gt;“&lt;em&gt;Status&lt;/em&gt;” &lt;code&gt;Label&lt;/code&gt; which displays what is the action to be taken.&lt;/li&gt;
+  &lt;li&gt;“&lt;em&gt;Starting Time in Seconds&lt;/em&gt;” &lt;code&gt;Entry&lt;/code&gt; to enter the starting point of trimmed video in seconds.&lt;/li&gt;
+  &lt;li&gt;“&lt;em&gt;Length&lt;/em&gt;” &lt;code&gt;Entry&lt;/code&gt; to enter the required length of the trimmed video.&lt;/li&gt;
+  &lt;li&gt;“&lt;em&gt;Trim and Share Video&lt;/em&gt;” &lt;code&gt;Button&lt;/code&gt; to initiate video trimming and sharing the trimmed video to other apps.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Trimming page XAML&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;Grid&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Padding=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;20&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;ColumnSpacing=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;20&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;RowSpacing=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;20&amp;quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;VerticalOptions=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Center&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Grid.RowDefinitions&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;RowDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;40&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;RowDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;40&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;RowDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;40&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;RowDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;40&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/Grid.RowDefinitions&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Grid.ColumnDefinitions&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;ColumnDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;ColumnDefinition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/Grid.ColumnDefinitions&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Pick Video&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Clicked=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;PickVideo_Clicked&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.ColumnSpan=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;BackgroundColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;DeepSkyBlue&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;TextColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;White&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x:Name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Status&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;HorizontalTextAlignment=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Center&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.ColumnSpan=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Pick a Video First&amp;quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Entry&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x:Name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;StartTime&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Starting Time in Seconds&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Entry&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x:Name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Length&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Length in Seconds&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.Column=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;Button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Trim and Share Video&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Clicked=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TrimVideo_Clicked&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.Row=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;3&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;Grid.ColumnSpan=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;BackgroundColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;DeepSkyBlue&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;TextColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;White&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;StackLayout&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x:Name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TrimmingIndicatorView&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;na&quot;&gt;BackgroundColor=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;LightGray&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;na&quot;&gt;Grid.RowSpan=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;4&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;na&quot;&gt;Grid.ColumnSpan=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;na&quot;&gt;IsVisible=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;False&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;ActivityIndicator&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;HorizontalOptions=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Center&amp;quot;&lt;/span&gt;
+                            &lt;span class=&quot;na&quot;&gt;IsRunning=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;True&amp;quot;&lt;/span&gt;
+                            &lt;span class=&quot;na&quot;&gt;VerticalOptions=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;EndAndExpand&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;Label&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;Text=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Trimming Video&amp;quot;&lt;/span&gt;
+                &lt;span class=&quot;na&quot;&gt;HorizontalOptions=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Center&amp;quot;&lt;/span&gt;
+                &lt;span class=&quot;na&quot;&gt;VerticalOptions=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;StartAndExpand&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/StackLayout&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/Grid&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In the code behind class for the page, let’s create a method whilch will check for required permissions and  then request permissions that are not already granted. We will be using Permissions API from &lt;strong&gt;&lt;em&gt;Xamarin.Essentials&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CheckAndRequestPermissionAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TPermission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;permissionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+&lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TPermission&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BasePermission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CheckStatusAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TPermission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Granted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TPermission&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;();&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Granted&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Denied&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Permission Required&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Please enable &amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;permissionName&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; 
+                    &lt;span class=&quot;s&quot;&gt;&amp;quot; permission to carry on with this operation.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Granted&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PermissionStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Unknown&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now let’s define &lt;code&gt;PickVideo_Clicked&lt;/code&gt; method. We will be using &lt;strong&gt;&lt;em&gt;Xam.Plugin.Media&lt;/em&gt;&lt;/strong&gt; to pick video.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;PickVideo_Clicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EventArgs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CrossMedia&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CheckAndRequestPermissionAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StorageRead&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Storage&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CheckAndRequestPermissionAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Permissions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Photos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Photos&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CrossMedia&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsPickVideoSupported&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;No Gallery Access&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;:( No access to gallery available.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isBusy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;isBusy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CrossMedia&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PickVideoAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;isBusy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Video Picked. Enter Start time and Length required, and press Trim Button&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;inputFilePath&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;isBusy&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Now let’s define &lt;code&gt;TrimVideo_Clicked&lt;/code&gt; method. We will be using &lt;strong&gt;&lt;em&gt;Xamarin.Forms.VideoTrimmer&lt;/em&gt;&lt;/strong&gt; to trim the video and &lt;code&gt;Share&lt;/code&gt; API from &lt;strong&gt;&lt;em&gt;Xamarin.Essentials&lt;/em&gt;&lt;/strong&gt; to share the trimmed video&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-csharp&quot; data-lang=&quot;csharp&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;TrimVideo_Clicked&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EventArgs&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;startTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TryParse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;StartTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;startTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Start Time is not in proper format&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TryParse&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Length is not in proper format&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsNullOrWhiteSpace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inputFilePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Video for trimming is not selected&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileName&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DateTime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ToString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;yyyyMMddhhmmss&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RuntimePlatform&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iOS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.mov&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.mp4&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outputPath&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Combine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Xamarin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Essentials&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FileSystem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AppDataDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;TrimmingIndicatorView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsVisible&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;VideoTrimmerService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrimAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;startTime&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endTime&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inputFilePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outputPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Video Trimmed Successfully&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Share&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RequestAsync&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ShareFileRequest&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;Title&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ShareFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;DisplayAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Video Trimming failed&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;OK&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;TrimmingIndicatorView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IsVisible&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 </description>
-        <pubDate>Thu, 26 Nov 2015 19:16:52 +0530</pubDate>
-        <link>http://sreerajpr.com/blogs/jekyll/</link>
-        <guid isPermaLink="true">http://sreerajpr.com/blogs/jekyll/</guid>
+        <pubDate>Fri, 31 Jul 2020 18:47:52 +0530</pubDate>
+        <link>http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/</link>
+        <guid isPermaLink="true">http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/</guid>
         
         
-        <category>jekyll</category>
+        <category>xamarin.forms</category>
         
-        <category>update</category>
+        <category>trim</category>
+        
+        <category>video</category>
         
       </item>
     

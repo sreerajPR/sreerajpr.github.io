@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Xamarin.Forms Video Trimmer</title>
+<meta name="description" content="I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is ...">
+
+<link rel="stylesheet" href="/css/main.css">
+<link rel="canonical" href="http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/">
+<link rel="alternate" type="application/rss+xml" title="Sreeraj P R" href="http://sreerajpr.com/feed.xml" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+<link rel="manifest" href="/favicon_io/site.webmanifest">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-172938344-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Xamarin.Forms Video Trimmer | Sreeraj P R</title>
+<meta name="generator" content="Jekyll v3.6.3" />
+<meta property="og:title" content="Xamarin.Forms Video Trimmer" />
+<meta name="author" content="Sreeraj P R" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is published as a Nuget Package : Xamarin.Forms.VideoTrimmer. It’s souce code and a demo lives inside a repository in my Github account. At the moment this package targets Android and iOS only." />
+<meta property="og:description" content="I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is published as a Nuget Package : Xamarin.Forms.VideoTrimmer. It’s souce code and a demo lives inside a repository in my Github account. At the moment this package targets Android and iOS only." />
+<link rel="canonical" href="http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/" />
+<meta property="og:url" content="http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/" />
+<meta property="og:site_name" content="Sreeraj P R" />
+<meta property="og:image" content="https://jekyllrb.com/img/octojekyll.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-31T18:47:52+05:30" />
+<script type="application/ld+json">
+{"url":"http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/","author":{"@type":"Person","name":"Sreeraj P R"},"headline":"Xamarin.Forms Video Trimmer","datePublished":"2020-07-31T18:47:52+05:30","dateModified":"2020-07-31T18:47:52+05:30","description":"I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is published as a Nuget Package : Xamarin.Forms.VideoTrimmer. It’s souce code and a demo lives inside a repository in my Github account. At the moment this package targets Android and iOS only.","image":"https://jekyllrb.com/img/octojekyll.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+  <header class="site-header">
+  <div class="container">
+    <nav class="navbar">
+      <ul>
+        <li><a href="/" title="Home">Home</a></li>
+        
+          <li><a href="/about" title="About">About</a></li>
+        
+          <li><a href="/blog" title="Blog">Blog</a></li>
+        
+        <li><a href="/feed.xml" target="_blank"><i class="icon icon-rss"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<main class="main-container">
+  <div class="container">
+    <article role="article" class="post">
+
+  <div class="card">
+    <header class="post-header">
+      <h1 class="post-title">Xamarin.Forms Video Trimmer</h1>
+      <em class="post-meta">
+        <time>Jul 31, 2020</time>
+      </em>
+    </header>
+
+    <div class="post-content">
+      <!--Commenting out the image that get's shown by default. Image can be added as asset whereever required.-->
+     <!-- 
+        <figure class="post-thumbnail ">
+          <img src="https://jekyllrb.com/img/octojekyll.png" alt="Xamarin.Forms Video Trimmer">
+        </figure>
+       -->
+      <p>I recently developed a plugin for Xamarin.Foms to trim videos. In this post I would like to give a small demonstration on how to use the same. The plugin is published as a Nuget Package : <a href="https://www.nuget.org/packages/Xamarin.Forms.VideoTrimmer/">Xamarin.Forms.VideoTrimmer</a>. It’s souce code and a demo lives inside a <a href="https://github.com/sreerajPR/Xamarin.Forms.VideoTrimmer">repository in my Github account</a>. At the moment this package targets Android and iOS only.</p>
+
+<p>API Usage</p>
+
+<p><code>Task&lt;bool&gt; VideoTrimmerService.Instance.TrimAsync(int startMS, int lengthMS,
+ string inputPath, string outputPath)</code></p>
+
+<ul>
+  <li>startMS : starting point of the Trimmed video in milliseconds.</li>
+  <li>lengthMS : length of the Trimmed video in milliseconds.</li>
+  <li>inputPath : path of the video to be trimmed.</li>
+  <li>outputPath : destination path of the trimmed video.</li>
+</ul>
+
+<blockquote>
+  <p>Note: Trimmed video will be in <code>mp4</code> and <code>mov</code> formats in Android and iOS respectively. <code>outputPath</code> should take care of this.</p>
+</blockquote>
+
+<h3 id="sample-xamarinforms-app-to-trim-video">Sample Xamarin.Forms app to Trim Video</h3>
+
+<p><img src="/images/VideoTrimmerDemo.gif" alt="Video Trimmer Xamarin.Forms App Android &amp; iOS" /></p>
+
+<p><em>Let’s get our hands dirty.</em> Let’s develop a small application in which we choose a video from the device, trims it and shares the trimmed version to other apps. To start with, create a blank Xamarin.Forms app targeting Android and iOS.</p>
+
+<h4 id="adding-necessary-nuget-packages">Adding Necessary Nuget packages</h4>
+
+<ul>
+  <li>Ensure that <a href="https://www.nuget.org/packages/Xamarin.Essentials/">Xamarin.Essentials</a> is installed. We will be using Permissions API from Xamarin.Essentials. So please ensure <a href="https://docs.microsoft.com/en-us/xamarin/essentials/permissions">Xamarin.Essentials is configured correctly</a>.</li>
+  <li>Add <a href="https://www.nuget.org/packages/Xam.Plugin.Media/">Xam.Plugin.Media</a> to the shared project.</li>
+  <li>Add <a href="https://www.nuget.org/packages/Xamarin.Forms.VideoTrimmer/">Xamarin.Forms.VideoTrimmer Nuget package</a> to all three projects.</li>
+</ul>
+
+<h4 id="video-trimming-page">Video Trimming Page</h4>
+
+<p>In the Video Trimming page, we will have:</p>
+
+<ol>
+  <li>“<em>Pick Video</em>” <code>Button</code> tapping which we will select the video to be trimmed.</li>
+  <li>“<em>Status</em>” <code>Label</code> which displays what is the action to be taken.</li>
+  <li>“<em>Starting Time in Seconds</em>” <code>Entry</code> to enter the starting point of trimmed video in seconds.</li>
+  <li>“<em>Length</em>” <code>Entry</code> to enter the required length of the trimmed video.</li>
+  <li>“<em>Trim and Share Video</em>” <code>Button</code> to initiate video trimming and sharing the trimmed video to other apps.</li>
+</ol>
+
+<p>Trimming page XAML</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;Grid</span> <span class="na">Padding=</span><span class="s">&quot;20&quot;</span>
+        <span class="na">ColumnSpacing=</span><span class="s">&quot;20&quot;</span>
+        <span class="na">RowSpacing=</span><span class="s">&quot;20&quot;</span>
+        <span class="na">VerticalOptions=</span><span class="s">&quot;Center&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Grid.RowDefinitions&gt;</span>
+        <span class="nt">&lt;RowDefinition</span> <span class="na">Height=</span><span class="s">&quot;40&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;RowDefinition</span> <span class="na">Height=</span><span class="s">&quot;40&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;RowDefinition</span> <span class="na">Height=</span><span class="s">&quot;40&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;RowDefinition</span> <span class="na">Height=</span><span class="s">&quot;40&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/Grid.RowDefinitions&gt;</span>
+    <span class="nt">&lt;Grid.ColumnDefinitions&gt;</span>
+        <span class="nt">&lt;ColumnDefinition</span> <span class="na">Width=</span><span class="s">&quot;*&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;ColumnDefinition</span> <span class="na">Width=</span><span class="s">&quot;*&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/Grid.ColumnDefinitions&gt;</span>
+    <span class="nt">&lt;Button</span> <span class="na">Text=</span><span class="s">&quot;Pick Video&quot;</span>
+            <span class="na">Clicked=</span><span class="s">&quot;PickVideo_Clicked&quot;</span>
+            <span class="na">Grid.ColumnSpan=</span><span class="s">&quot;2&quot;</span>
+            <span class="na">BackgroundColor=</span><span class="s">&quot;DeepSkyBlue&quot;</span>
+            <span class="na">TextColor=</span><span class="s">&quot;White&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;Label</span> <span class="na">x:Name=</span><span class="s">&quot;Status&quot;</span>
+            <span class="na">HorizontalTextAlignment=</span><span class="s">&quot;Center&quot;</span>
+            <span class="na">Grid.Row=</span><span class="s">&quot;1&quot;</span>
+            <span class="na">Grid.ColumnSpan=</span><span class="s">&quot;2&quot;</span>
+            <span class="na">Text=</span><span class="s">&quot;Pick a Video First&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;Entry</span> <span class="na">x:Name=</span><span class="s">&quot;StartTime&quot;</span>
+            <span class="na">Placeholder=</span><span class="s">&quot;Starting Time in Seconds&quot;</span>
+            <span class="na">Grid.Row=</span><span class="s">&quot;2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;Entry</span> <span class="na">x:Name=</span><span class="s">&quot;Length&quot;</span>
+            <span class="na">Placeholder=</span><span class="s">&quot;Length in Seconds&quot;</span>
+            <span class="na">Grid.Row=</span><span class="s">&quot;2&quot;</span>
+            <span class="na">Grid.Column=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;Button</span> <span class="na">Text=</span><span class="s">&quot;Trim and Share Video&quot;</span>
+            <span class="na">Clicked=</span><span class="s">&quot;TrimVideo_Clicked&quot;</span>
+            <span class="na">Grid.Row=</span><span class="s">&quot;3&quot;</span>
+            <span class="na">Grid.ColumnSpan=</span><span class="s">&quot;2&quot;</span>
+            <span class="na">BackgroundColor=</span><span class="s">&quot;DeepSkyBlue&quot;</span>
+            <span class="na">TextColor=</span><span class="s">&quot;White&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;StackLayout</span> <span class="na">x:Name=</span><span class="s">&quot;TrimmingIndicatorView&quot;</span>
+                    <span class="na">BackgroundColor=</span><span class="s">&quot;LightGray&quot;</span>
+                    <span class="na">Grid.RowSpan=</span><span class="s">&quot;4&quot;</span>
+                    <span class="na">Grid.ColumnSpan=</span><span class="s">&quot;2&quot;</span>
+                    <span class="na">IsVisible=</span><span class="s">&quot;False&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;ActivityIndicator</span> <span class="na">HorizontalOptions=</span><span class="s">&quot;Center&quot;</span>
+                            <span class="na">IsRunning=</span><span class="s">&quot;True&quot;</span>
+                            <span class="na">VerticalOptions=</span><span class="s">&quot;EndAndExpand&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;Label</span> <span class="na">Text=</span><span class="s">&quot;Trimming Video&quot;</span>
+                <span class="na">HorizontalOptions=</span><span class="s">&quot;Center&quot;</span>
+                <span class="na">VerticalOptions=</span><span class="s">&quot;StartAndExpand&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/StackLayout&gt;</span>
+<span class="nt">&lt;/Grid&gt;</span></code></pre></figure>
+
+<p>In the code behind class for the page, let’s create a method whilch will check for required permissions and  then request permissions that are not already granted. We will be using Permissions API from <strong><em>Xamarin.Essentials</em></strong>.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span></span><span class="k">private</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="kt">bool</span><span class="p">&gt;</span> <span class="n">CheckAndRequestPermissionAsync</span><span class="p">&lt;</span><span class="n">TPermission</span><span class="p">&gt;(</span><span class="kt">string</span> <span class="n">permissionName</span><span class="p">)</span> 
+<span class="k">where</span> <span class="n">TPermission</span> <span class="p">:</span> <span class="n">Permissions</span><span class="p">.</span><span class="n">BasePermission</span><span class="p">,</span> <span class="k">new</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">status</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Permissions</span><span class="p">.</span><span class="n">CheckStatusAsync</span><span class="p">&lt;</span><span class="n">TPermission</span><span class="p">&gt;();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="p">!=</span> <span class="n">PermissionStatus</span><span class="p">.</span><span class="n">Granted</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">status</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Permissions</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">&lt;</span><span class="n">TPermission</span><span class="p">&gt;();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="p">!=</span> <span class="n">PermissionStatus</span><span class="p">.</span><span class="n">Granted</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="p">==</span> <span class="n">PermissionStatus</span><span class="p">.</span><span class="n">Denied</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;Permission Required&quot;</span><span class="p">,</span> <span class="s">&quot;Please enable &quot;</span> <span class="p">+</span> <span class="n">permissionName</span> <span class="p">+</span> 
+                    <span class="s">&quot; permission to carry on with this operation.&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="p">==</span> <span class="n">PermissionStatus</span><span class="p">.</span><span class="n">Granted</span> <span class="p">||</span> <span class="n">status</span> <span class="p">==</span> <span class="n">PermissionStatus</span><span class="p">.</span><span class="n">Unknown</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now let’s define <code>PickVideo_Clicked</code> method. We will be using <strong><em>Xam.Plugin.Media</em></strong> to pick video.</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span></span><span class="k">async</span> <span class="k">void</span> <span class="nf">PickVideo_Clicked</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">await</span> <span class="n">CrossMedia</span><span class="p">.</span><span class="n">Current</span><span class="p">.</span><span class="n">Initialize</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">await</span> <span class="n">CheckAndRequestPermissionAsync</span><span class="p">&lt;</span><span class="n">Permissions</span><span class="p">.</span><span class="n">StorageRead</span><span class="p">&gt;(</span><span class="s">&quot;Storage&quot;</span><span class="p">)</span> 
+    <span class="p">&amp;&amp;</span> <span class="k">await</span> <span class="n">CheckAndRequestPermissionAsync</span><span class="p">&lt;</span><span class="n">Permissions</span><span class="p">.</span><span class="n">Photos</span><span class="p">&gt;(</span><span class="s">&quot;Photos&quot;</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(!</span><span class="n">CrossMedia</span><span class="p">.</span><span class="n">Current</span><span class="p">.</span><span class="n">IsPickVideoSupported</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;No Gallery Access&quot;</span><span class="p">,</span> <span class="s">&quot;:( No access to gallery available.&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isBusy</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="n">isBusy</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">file</span> <span class="p">=</span> <span class="k">await</span> <span class="n">CrossMedia</span><span class="p">.</span><span class="n">Current</span><span class="p">.</span><span class="n">PickVideoAsync</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">file</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">isBusy</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">Status</span><span class="p">.</span><span class="n">Text</span> <span class="p">=</span> <span class="s">&quot;Video Picked. Enter Start time and Length required, and press Trim Button&quot;</span><span class="p">;</span>
+        <span class="n">inputFilePath</span> <span class="p">=</span> <span class="n">file</span><span class="p">.</span><span class="n">Path</span><span class="p">;</span>
+        <span class="n">isBusy</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now let’s define <code>TrimVideo_Clicked</code> method. We will be using <strong><em>Xamarin.Forms.VideoTrimmer</em></strong> to trim the video and <code>Share</code> API from <strong><em>Xamarin.Essentials</em></strong> to share the trimmed video</p>
+
+<figure class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span></span><span class="k">async</span> <span class="k">void</span> <span class="nf">TrimVideo_Clicked</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(!</span><span class="kt">int</span><span class="p">.</span><span class="n">TryParse</span><span class="p">(</span><span class="n">StartTime</span><span class="p">.</span><span class="n">Text</span><span class="p">,</span> <span class="k">out</span> <span class="n">startTime</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Start Time is not in proper format&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(!</span><span class="kt">int</span><span class="p">.</span><span class="n">TryParse</span><span class="p">(</span><span class="n">Length</span><span class="p">.</span><span class="n">Text</span><span class="p">,</span> <span class="k">out</span> <span class="n">endTime</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Length is not in proper format&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrWhiteSpace</span><span class="p">(</span><span class="n">inputFilePath</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Video for trimming is not selected&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">string</span> <span class="n">fileName</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;yyyyMMddhhmmss&quot;</span><span class="p">)</span> 
+    <span class="p">+</span> <span class="p">(</span><span class="n">Device</span><span class="p">.</span><span class="n">RuntimePlatform</span> <span class="p">==</span> <span class="n">Device</span><span class="p">.</span><span class="n">iOS</span> <span class="p">?</span> <span class="s">&quot;.mov&quot;</span> <span class="p">:</span> <span class="s">&quot;.mp4&quot;</span><span class="p">);</span>
+<span class="kt">string</span> <span class="n">outputPath</span> <span class="p">=</span> <span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Xamarin</span><span class="p">.</span><span class="n">Essentials</span><span class="p">.</span><span class="n">FileSystem</span><span class="p">.</span><span class="n">AppDataDirectory</span><span class="p">,</span> <span class="n">fileName</span><span class="p">);</span>
+    <span class="n">TrimmingIndicatorView</span><span class="p">.</span><span class="n">IsVisible</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">await</span> <span class="n">VideoTrimmerService</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">TrimAsync</span><span class="p">(</span><span class="n">startTime</span> <span class="p">*</span> <span class="m">1000</span><span class="p">,</span> <span class="n">endTime</span> <span class="p">*</span> <span class="m">1000</span><span class="p">,</span> <span class="n">inputFilePath</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Video Trimmed Successfully&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+            <span class="k">await</span> <span class="n">Share</span><span class="p">.</span><span class="n">RequestAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">ShareFileRequest</span>
+            <span class="p">{</span>
+                <span class="n">Title</span> <span class="p">=</span> <span class="n">Title</span><span class="p">,</span>
+                <span class="n">File</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ShareFile</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="nf">DisplayAlert</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Video Trimming failed&quot;</span><span class="p">,</span> <span class="s">&quot;OK&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">finally</span>
+    <span class="p">{</span>
+        <span class="n">TrimmingIndicatorView</span><span class="p">.</span><span class="n">IsVisible</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
+    </div>
+
+    
+<hr>
+
+<aside id="comments" class="disqus">
+  <h3><i class="icon icon-comments-o"></i> Comments</h3>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function() {
+      this.page.url = 'http://sreerajpr.com/blogs/xamarin-forms-video-trimmer/';
+      this.page.identifier = '/blogs/Xamarin.Forms-Video-Trimmer';
+    };
+    (function() {
+      var d = document,
+      s = d.createElement('script');
+      s.src = '//sreeraj-p-r.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</aside>
+
+
+  </div>
+
+</article>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <ul class="social">
+  <li><a href="https://github.com/sreerajpr" target="_blank"><i class="icon icon-github"></i></a></li>
+  <li><a href="https://www.linkedin.com/in/sreeraj-p-r-360b125b/" target="_blank"><i class="icon icon-linkedin"></i></a></li>
+  <li><a href="https://facebook.com/sreerajpr" target="_blank"><i class="icon icon-facebook"></i></a></li>
+  <li><a href="mailto:sreerajpr.mec@gmail.com" target="_blank"><i class="icon icon-mail"></i></a></li>
+</ul>
+    <p class="txt-medium-gray">
+      <small>&copy;2020 All rights reserved. Made with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and ♥</small>
+    </p>
+  </div>
+</footer>
+
+
+</body>
+</html>
