@@ -50,6 +50,11 @@
 <body>
   <header class="site-header">
   <div class="container">
+    <input type="checkbox" id="toggleNavbar">
+    <label for="toggleNavbar" role="button" class="toggle-navbar-button">
+      <i class="icon icon-menu"></i>
+      <i class="icon icon-cross"></i>
+    </label>
     <nav class="navbar">
       <ul>
         <li><a href="/" title="Home">Home</a></li>
@@ -88,8 +93,8 @@
 
 <p>API Usage</p>
 
-<p><code class="highlighter-rouge">Task&lt;bool&gt; VideoTrimmerService.Instance.TrimAsync(int startMS, int lengthMS,
- string inputPath, string outputPath)</code></p>
+<p><code class="highlighter-rouge">Task&lt;bool&gt; VideoTrimmerService. Instance. TrimAsync ( int startMS, int lengthMS,
+ string inputPath, string outputPath )</code></p>
 
 <ul>
   <li>startMS : starting point of the Trimmed video in milliseconds.</li>
